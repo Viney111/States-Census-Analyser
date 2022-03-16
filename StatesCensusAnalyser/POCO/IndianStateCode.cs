@@ -7,10 +7,10 @@ namespace StatesCensusAnalyser.POCO
 {
     public class IndianStateCode
     {
-        public int serialNumber { get; set; }
-        public string stateName { get; set; }
-        public int tin { get; set; }
-        public string stateCode { get; set; }
+        public int SrNo { get; set; }
+        public string StateName { get; set; }
+        public int TIN { get; set; }
+        public string StateCode { get; set; }
 
     }
 }

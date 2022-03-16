@@ -6,13 +6,14 @@ using System.Globalization;
 
 namespace StatesCensusAnalyser
 {
-    public class IndianStatesCSVDataLoad
+    public class IndianStatesCensusAndCodeCSVDataLoad
     {
         List<IndianStateCensusData> indianStateCensusDatas;
+        List<IndianStateCode> indianStateCodes;
 
         public int LoadStateCensusDataIntoList(string filepath, string[] header = null)
         {
-
+            int recordCounts = 0;
             if (File.Exists(filepath))
             {
                 string[] censusData = File.ReadAllLines(filepath);
@@ -29,7 +30,17 @@ namespace StatesCensusAnalyser
                     using (StreamReader sr = File.OpenText(filepath))
                     using (var csvReader = new CsvReader(sr, CultureInfo.InvariantCulture))
                     {
-                        indianStateCensusDatas = csvReader.GetRecords<IndianStateCensusData>().ToList();
+                        if (filepath.Contains("StateCode"))
+                        {
+                            indianStateCodes = csvReader.GetRecords<IndianStateCode>().ToList();
+
+                            recordCounts = indianStateCodes.Count;
+                        }
+                        if (filepath.Contains("StateCensus"))
+                        {
+                            indianStateCensusDatas = csvReader.GetRecords<IndianStateCensusData>().ToList();
+                            recordCounts = indianStateCensusDatas.Count;
+                        }                           
                     }
                 }
             }
@@ -41,7 +52,7 @@ namespace StatesCensusAnalyser
             {
                 throw new CustomStateCensusException(CustomStateCensusException.ExceptionType.FILE_NOT_FOUND, "File is not found at specified location");
             }
-            return indianStateCensusDatas.Count;
+            return recordCounts;
         }
         public bool CheckForDelimiter(string[] datas)
         {
