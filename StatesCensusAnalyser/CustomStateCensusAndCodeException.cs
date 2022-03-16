@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace StatesCensusAnalyser
 {
-    public class CustomStateCensusException : Exception
+    public class CustomStateCensusAndCodeException : Exception
     {
         public enum ExceptionType
         {
@@ -14,7 +14,7 @@ namespace StatesCensusAnalyser
         }
         public ExceptionType Type;
 
-        public CustomStateCensusException(ExceptionType type,string message) : base(message)
+        public CustomStateCensusAndCodeException(ExceptionType type,string message) : base(message)
         {
             Type = type;
         }

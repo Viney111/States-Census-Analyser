@@ -19,11 +19,11 @@ namespace StatesCensusAnalyser
                 string[] censusData = File.ReadAllLines(filepath);
                 if (CheckForDelimiter(censusData) == false)
                 {
-                    throw new CustomStateCensusException(CustomStateCensusException.ExceptionType.INCORRECT_DELIMITER, "File has incorrect delimiter");
+                    throw new CustomStateCensusAndCodeException(CustomStateCensusAndCodeException.ExceptionType.INCORRECT_DELIMITER, "File has incorrect delimiter");
                 }
                 else if (header != null && censusData[0] != header[0])
                 {
-                    throw new CustomStateCensusException(CustomStateCensusException.ExceptionType.INCORRECT_HEADER, "File has incorrect header");
+                    throw new CustomStateCensusAndCodeException(CustomStateCensusAndCodeException.ExceptionType.INCORRECT_HEADER, "File has incorrect header");
                 }
                 else
                 {
@@ -46,11 +46,11 @@ namespace StatesCensusAnalyser
             }
             else if (Path.GetExtension(filepath) != ".csv")
             {
-                throw new CustomStateCensusException(CustomStateCensusException.ExceptionType.FILE_TYPE_INCORRECT, "File Type is incorrect");
+                throw new CustomStateCensusAndCodeException(CustomStateCensusAndCodeException.ExceptionType.FILE_TYPE_INCORRECT, "File Type is incorrect");
             }
             else if (!File.Exists(filepath))
             {
-                throw new CustomStateCensusException(CustomStateCensusException.ExceptionType.FILE_NOT_FOUND, "File is not found at specified location");
+                throw new CustomStateCensusAndCodeException(CustomStateCensusAndCodeException.ExceptionType.FILE_NOT_FOUND, "File is not found at specified location");
             }
             return recordCounts;
         }
