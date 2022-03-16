@@ -12,19 +12,17 @@ namespace StatesCensusAnalyser
 
         public int LoadStateCensusDataIntoList(string filepath, string[] header = null)
         {
+
             if (File.Exists(filepath))
             {
-                if (CheckForDelimiter(filepath) == false)
+                string[] censusData = File.ReadAllLines(filepath);
+                if (CheckForDelimiter(censusData) == false)
                 {
                     throw new CustomStateCensusException(CustomStateCensusException.ExceptionType.INCORRECT_DELIMITER, "File has incorrect delimiter");
                 }
-                else if (header != null)
+                else if (header != null && censusData[0] != header[0])
                 {
-                    bool headerMatch = CheckForHeader(filepath, header);
-                    if (headerMatch == false)
-                    {
-                        throw new CustomStateCensusException(CustomStateCensusException.ExceptionType.INCORRECT_HEADER, "File has incorrect header");
-                    }
+                    throw new CustomStateCensusException(CustomStateCensusException.ExceptionType.INCORRECT_HEADER, "File has incorrect header");
                 }
                 else
                 {
@@ -45,11 +43,10 @@ namespace StatesCensusAnalyser
             }
             return indianStateCensusDatas.Count;
         }
-        public bool CheckForDelimiter(string filePath)
+        public bool CheckForDelimiter(string[] datas)
         {
-            string[] censusData = File.ReadAllLines(filePath);
             bool delimiterCheck = false;
-            foreach (string data in censusData.Skip(1))
+            foreach (string data in datas.Skip(1))
             {
                 if (data.Contains(","))
                 {
@@ -62,12 +59,6 @@ namespace StatesCensusAnalyser
                 }
             }
             return delimiterCheck;
-        }
-        public bool CheckForHeader(string filePath,params string[] header)
-        {
-            string[] censusdata = File.ReadAllLines(filePath);
-            bool headerCheck = censusdata[0]== header[0]? true: false;
-            return headerCheck;
         }
     }
 }
