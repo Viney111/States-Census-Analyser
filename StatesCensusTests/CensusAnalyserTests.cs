@@ -10,7 +10,7 @@ namespace StatesCensusTests
 
         public readonly static string INDIAN_STATE_CENSUS_DATA_FILEPATH = @"C:\Users\Kashish Manchanda\source\repos\Census Analyser Problem\StatesCensusTests\Resources\IndiaStateCensusData.csv";
         public readonly static string INDIAN_STATE_CENSUS_DATA_WRONG_FILEPATH = @"C:\Users\Kashish Manchanda\source\repos\Census Analyser Problem\StatesCensusTests\Resource\IndiaStateCensusData.csv";
-        
+        public readonly static string INDIAN_STATE_CENSUS_DATA_INCORRECT_EXTENSION_FILEPATH = @"C:\Users\Kashish Manchanda\source\repos\Census Analyser Problem\StatesCensusTests\Resource\IndiaStateCensusData.xls";
         [SetUp]
         public void Setup()
         {
@@ -36,6 +36,20 @@ namespace StatesCensusTests
             catch (Exception ex)
             {
                 Assert.AreEqual("File is not found at specified location", ex.Message);
+            }
+        }
+        [Test]
+        public void GivenStateCensusDataRightFilePath_ButWrongExtension_InLoadCensusData_ThrowCustomException()
+        {
+            try
+            {
+                int expectedRecords = 29;
+                int result = indianStatesCSVDataLoad.LoadStateCensusDataIntoList(INDIAN_STATE_CENSUS_DATA_INCORRECT_EXTENSION_FILEPATH);
+                Assert.AreEqual(expectedRecords, result);
+            }
+            catch (Exception ex)
+            {
+                Assert.AreEqual("File Type is incorrect", ex.Message);
             }
         }
     }
