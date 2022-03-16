@@ -10,7 +10,7 @@ namespace StatesCensusAnalyser
     {
         public enum ExceptionType
         {
-            FILE_NOT_FOUND, FILE_TYPE_INCORRECT, INCORRECT_DELIMITER
+            FILE_NOT_FOUND, FILE_TYPE_INCORRECT, INCORRECT_DELIMITER, INCORRECT_HEADER
         }
         public ExceptionType Type;
 

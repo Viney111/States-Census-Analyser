@@ -10,13 +10,21 @@ namespace StatesCensusAnalyser
     {
         List<IndianStateCensusData> indianStateCensusDatas;
 
-        public int LoadStateCensusDataIntoList(string filepath)
+        public int LoadStateCensusDataIntoList(string filepath, string[] header = null)
         {
             if (File.Exists(filepath))
             {
                 if (CheckForDelimiter(filepath) == false)
                 {
                     throw new CustomStateCensusException(CustomStateCensusException.ExceptionType.INCORRECT_DELIMITER, "File has incorrect delimiter");
+                }
+                else if (header != null)
+                {
+                    bool headerMatch = CheckForHeader(filepath, header);
+                    if (headerMatch == false)
+                    {
+                        throw new CustomStateCensusException(CustomStateCensusException.ExceptionType.INCORRECT_HEADER, "File has incorrect header");
+                    }
                 }
                 else
                 {
@@ -41,7 +49,7 @@ namespace StatesCensusAnalyser
         {
             string[] censusData = File.ReadAllLines(filePath);
             bool delimiterCheck = false;
-            foreach (string data in censusData)
+            foreach (string data in censusData.Skip(1))
             {
                 if (data.Contains(","))
                 {
@@ -54,6 +62,12 @@ namespace StatesCensusAnalyser
                 }
             }
             return delimiterCheck;
+        }
+        public bool CheckForHeader(string filePath,params string[] header)
+        {
+            string[] censusdata = File.ReadAllLines(filePath);
+            bool headerCheck = censusdata[0]== header[0]? true: false;
+            return headerCheck;
         }
     }
 }
