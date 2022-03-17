@@ -2,11 +2,12 @@
 using System;
 using CsvHelper;
 using System.Globalization;
+using Newtonsoft.Json;
 
 
 namespace StatesCensusAnalyser
 {
-    public class IndianStatesCensusAndCodeCSVDataLoad
+    public class IndianStatesCensusAndCodeCSVDataLoad : ILoadIndianStatesData
     {
         List<IndianStateCensusData> indianStateCensusDatas;
         List<IndianStateCode> indianStateCodes;
@@ -33,11 +34,10 @@ namespace StatesCensusAnalyser
                         if (filepath.Contains("StateCode"))
                         {
                             indianStateCodes = csvReader.GetRecords<IndianStateCode>().ToList();
-
                             recordCounts = indianStateCodes.Count;
                         }
                         if (filepath.Contains("StateCensus"))
-                        {
+                        {   
                             indianStateCensusDatas = csvReader.GetRecords<IndianStateCensusData>().ToList();
                             recordCounts = indianStateCensusDatas.Count;
                         }                           
@@ -70,6 +70,14 @@ namespace StatesCensusAnalyser
                 }
             }
             return delimiterCheck;
+        }
+        public string SortingByState(string filePath)
+        {
+            int recordsCount = LoadStateCensusDataIntoList(filePath);
+            List<IndianStateCensusData> stateCensusSortedList = indianStateCensusDatas;
+            stateCensusSortedList.Sort((s1,s2) => s1.State.CompareTo(s2.State));
+            var jsonString = JsonConvert.SerializeObject(stateCensusSortedList);
+            return jsonString;
         }
     }
 }

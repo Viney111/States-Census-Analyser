@@ -1,6 +1,8 @@
 using NUnit.Framework;
 using StatesCensusAnalyser;
 using System;
+using Newtonsoft.Json;
+using StatesCensusAnalyser.POCO;
 
 namespace StatesCensusTests
 {
@@ -24,7 +26,7 @@ namespace StatesCensusTests
         [SetUp]
         public void Setup()
         {
-            indianStatesCSVDataLoad = new IndianStatesCensusAndCodeCSVDataLoad();          
+            indianStatesCSVDataLoad = new IndianStatesCensusAndCodeCSVDataLoad();      
         }
 
         [Test]
@@ -152,6 +154,15 @@ namespace StatesCensusTests
             {
                 Assert.AreEqual("File has incorrect header", ex.Message);
             }
+        }
+        [Test]
+        public void GivenStateCensusCodeRightFilePath_InLoadCensusData_GetsMeSortedListByState_ReturnsStateName()
+        {
+            var jsonString = indianStatesCSVDataLoad.SortingByState(INDIAN_STATE_CENSUS_DATA_FILEPATH);
+            var arraySortedByState = JsonConvert.DeserializeObject < IndianStateCensusData[] > (jsonString);
+            Assert.AreEqual(arraySortedByState[0].State, "Andhra Pradesh");
+            Array.Reverse(arraySortedByState);
+            Assert.AreEqual(arraySortedByState[0].State, "West Bengal");
         }
     }
 }
