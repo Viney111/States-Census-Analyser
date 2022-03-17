@@ -71,13 +71,35 @@ namespace StatesCensusAnalyser
             }
             return delimiterCheck;
         }
-        public string SortingByState(string filePath)
+        public string SortingStateCensusDataByState(string filePath)
         {
-            int recordsCount = LoadStateCensusDataIntoList(filePath);
-            List<IndianStateCensusData> stateCensusSortedList = indianStateCensusDatas;
-            stateCensusSortedList.Sort((s1,s2) => s1.State.CompareTo(s2.State));
-            var jsonString = JsonConvert.SerializeObject(stateCensusSortedList);
-            return jsonString;
+            try
+            {
+                int recordsCount = LoadStateCensusDataIntoList(filePath);
+                List<IndianStateCensusData> stateCensusSortedList = indianStateCensusDatas;
+                stateCensusSortedList.Sort((s1, s2) => s1.State.CompareTo(s2.State));
+                var jsonString = JsonConvert.SerializeObject(stateCensusSortedList);
+                return jsonString;
+            }
+            catch(NullReferenceException)
+            {
+                return "The file Path You mentioned is for StateCode File";
+            }
+        }
+        public string SortingStateCodeDataByStateCode(string filePath)
+        {
+            try
+            {
+                int recordsCount = LoadStateCensusDataIntoList(filePath);
+                List<IndianStateCode> stateCodeSortedList = indianStateCodes;
+                stateCodeSortedList.Sort((s1, s2) => s1.StateCode.CompareTo(s2.StateCode));
+                var jsonString = JsonConvert.SerializeObject(stateCodeSortedList);
+                return jsonString;
+            }
+            catch (NullReferenceException)
+            {
+                return "The file Path You mentioned is for StateCensus File";
+            }
         }
     }
 }

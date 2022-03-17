@@ -156,13 +156,34 @@ namespace StatesCensusTests
             }
         }
         [Test]
-        public void GivenStateCensusCodeRightFilePath_InLoadCensusData_GetsMeSortedListByState_ReturnsStateName()
+        public void GivenStateCensusDataRightFilePath_InLoadCensusData_GetsMeSortedListByStateName()
         {
-            var jsonString = indianStatesCSVDataLoad.SortingByState(INDIAN_STATE_CENSUS_DATA_FILEPATH);
-            var arraySortedByState = JsonConvert.DeserializeObject < IndianStateCensusData[] > (jsonString);
+            var jsonString = indianStatesCSVDataLoad.SortingStateCensusDataByState(INDIAN_STATE_CENSUS_DATA_FILEPATH);
+            var arraySortedByState = JsonConvert.DeserializeObject<IndianStateCensusData[]>(jsonString);
             Assert.AreEqual(arraySortedByState[0].State, "Andhra Pradesh");
             Array.Reverse(arraySortedByState);
             Assert.AreEqual(arraySortedByState[0].State, "West Bengal");
+        }
+        [Test]
+        public void GivenStateCensusDataWrongFilePath_InLoadCensusData_GetsMeWrongFilePassesMessage()
+        {
+            var jsonString = indianStatesCSVDataLoad.SortingStateCensusDataByState(INDIAN_STATE_CODE_DATA_FILEPATH);
+            Assert.AreEqual(jsonString, "The file Path You mentioned is for StateCode File");
+        }
+        [Test]
+        public void GivenStateCodeRightFilePath_InLoadCensusData_GetsMeSortedListByStateCode()
+        {
+            var jsonString = indianStatesCSVDataLoad.SortingStateCodeDataByStateCode(INDIAN_STATE_CODE_DATA_FILEPATH);
+            var arraySortedByStateCode = JsonConvert.DeserializeObject<IndianStateCode[]>(jsonString);
+            Assert.AreEqual(arraySortedByStateCode[0].StateName, "Andaman and Nicobar Islands");
+            Array.Reverse(arraySortedByStateCode);
+            Assert.AreEqual(arraySortedByStateCode[0].StateName, "West Bengal");
+        }
+        [Test]
+        public void GivenStateCodeWrongFilePath_InLoadCensusData_GetsMeWrongFilePassesMessage()
+        {
+            var jsonString = indianStatesCSVDataLoad.SortingStateCodeDataByStateCode(INDIAN_STATE_CENSUS_DATA_FILEPATH);
+            Assert.AreEqual(jsonString, "The file Path You mentioned is for StateCensus File");
         }
     }
 }
