@@ -9,7 +9,7 @@ namespace StatesCensusAnalyser
     {
         public enum SortingType
         {
-            STATE,STATE_CODE
+            STATE,STATE_CODE,POPULATION_DENSITY
         }
         public SortingType comparebyDataHeader;
         public ComparerFields(SortingType comparebyDataHeader)
@@ -24,6 +24,8 @@ namespace StatesCensusAnalyser
                     return x.State.CompareTo(y.State);
                 case SortingType.STATE_CODE:
                     return x.StateCode.CompareTo(y.StateCode);
+                case SortingType.POPULATION_DENSITY:
+                    return x.PopulationDensity.CompareTo(y.PopulationDensity);
                 default:
                     break;
             }

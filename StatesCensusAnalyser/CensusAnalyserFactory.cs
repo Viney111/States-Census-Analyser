@@ -21,7 +21,7 @@ namespace StatesCensusAnalyser
             }
             return distinctCountryData.Count;
         }
-        public string SortingIndianStateData(CountryType country,ComparerFields.SortingType fieldtoBesorted, params string[] filePath)
+        public string SortingIndiaUSStateData(CountryType country,ComparerFields.SortingType fieldtoBesorted, params string[] filePath)
         {
             if (country == CountryType.INDIA)
             {

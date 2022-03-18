@@ -36,6 +36,15 @@ namespace StatesCensusTests
             Assert.AreEqual(expectedRecords, result);
         }
         [Test]
+        public void GivenUSStateCensusDataRightFilePath_InLoadCensusData_GetsMeSortedListByPopulousState()
+        {
+            var jsonString = censusAnalyserFactory.SortingIndiaUSStateData(CountryType.US, ComparerFields.SortingType.POPULATION_DENSITY, US_STATE_CENSUS_DATA_FILEPATH);
+            var arraySortedByState = JsonConvert.DeserializeObject<USStateData[]>(jsonString);
+            Assert.AreEqual(arraySortedByState[0].State, "Alaska");
+            Array.Reverse(arraySortedByState);
+            Assert.AreEqual(arraySortedByState[0].State, "District of Columbia");
+        }
+        [Test]
         public void GivenUSCensusDataWrongFilePath_InLoadCensusData_ThrowCustomException()
         {
             try
@@ -173,7 +182,7 @@ namespace StatesCensusTests
         [Test]
         public void GivenStateCensusDataRightFilePath_InLoadCensusData_GetsMeSortedListByStateName()
         {
-            var jsonString = censusAnalyserFactory.SortingIndianStateData(CountryType.INDIA,ComparerFields.SortingType.STATE, INDIAN_STATE_CENSUS_DATA_FILEPATH, INDIAN_STATE_CODE_DATA_FILEPATH);
+            var jsonString = censusAnalyserFactory.SortingIndiaUSStateData(CountryType.INDIA,ComparerFields.SortingType.STATE, INDIAN_STATE_CENSUS_DATA_FILEPATH, INDIAN_STATE_CODE_DATA_FILEPATH);
             var arraySortedByState = JsonConvert.DeserializeObject<IndianStateCensusData[]>(jsonString);
             Assert.AreEqual(arraySortedByState[0].State, "Andhra Pradesh");
             Array.Reverse(arraySortedByState);
@@ -182,7 +191,7 @@ namespace StatesCensusTests
         [Test]
         public void GivenStateCodeRightFilePath_InLoadCensusData_GetsMeSortedListByStateCode()
         {
-            var jsonString = censusAnalyserFactory.SortingIndianStateData(CountryType.INDIA,ComparerFields.SortingType.STATE_CODE, INDIAN_STATE_CENSUS_DATA_FILEPATH, INDIAN_STATE_CODE_DATA_FILEPATH);
+            var jsonString = censusAnalyserFactory.SortingIndiaUSStateData(CountryType.INDIA,ComparerFields.SortingType.STATE_CODE, INDIAN_STATE_CENSUS_DATA_FILEPATH, INDIAN_STATE_CODE_DATA_FILEPATH);
             var arraySortedByStateCode = JsonConvert.DeserializeObject<IndianStateCode[]>(jsonString);
             Assert.AreEqual(arraySortedByStateCode[0].StateName, "Andhra Pradesh");
             Array.Reverse(arraySortedByStateCode);
