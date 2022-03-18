@@ -11,7 +11,7 @@ namespace StatesCensusAnalyser
         public static string[] StatesDataFilesChecking(string filepath)
         {
             string[] censusData = null;
-            string[] headers = { "State,Population,AreaInSqKm,DensityPerSqKm", "SrNo,StateName,TIN,StateCode" };
+            string[] headers = { "State,Population,AreaInSqKm,DensityPerSqKm", "SrNo,StateName,TIN,StateCode" , "StateId,State,Population,Housingunits,Totalarea,Waterarea,Landarea,PopulationDensity,HousingDensity" };
             if (File.Exists(filepath))
             {
                 censusData = File.ReadAllLines(filepath);

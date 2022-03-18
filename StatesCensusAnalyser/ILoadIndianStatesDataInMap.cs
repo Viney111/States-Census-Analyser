@@ -6,6 +6,6 @@ namespace StatesCensusAnalyser
 {
     public interface ILoadIndianStatesDataInMap
     {
-        public Dictionary<string, IndianStateDTO> MappingStateCodeAndCensus(params string[] filePath);
+        public Dictionary<string, IndiaUSStateDTO> MappingStatesData(params string[] filePath);
     }
 }

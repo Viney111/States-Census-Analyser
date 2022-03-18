@@ -5,7 +5,7 @@ using StatesCensusAnalyser.POCO;
 
 namespace StatesCensusAnalyser
 {
-    public class ComparerFields : IComparer<IndianStateDTO>
+    public class ComparerFields : IComparer<IndiaUSStateDTO>
     {
         public enum SortingType
         {
@@ -16,7 +16,7 @@ namespace StatesCensusAnalyser
         {
             this.comparebyDataHeader = comparebyDataHeader;
         }
-        public int Compare(IndianStateDTO x, IndianStateDTO y)
+        public int Compare(IndiaUSStateDTO x, IndiaUSStateDTO y)
         {
             switch (comparebyDataHeader)
             {

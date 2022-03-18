@@ -9,8 +9,8 @@ namespace StatesCensusAnalyser
 {
     public class IndianStateCensusCodeMap : ILoadIndianStatesDataInMap
     {
-        Dictionary<string, IndianStateDTO> mapStateCensusCode = new Dictionary<string, IndianStateDTO>();
-        public Dictionary<string, IndianStateDTO> MappingStateCodeAndCensus(params string[] filePath)
+        Dictionary<string, IndiaUSStateDTO> mapStateCensusCode = new Dictionary<string, IndiaUSStateDTO>();
+        public Dictionary<string, IndiaUSStateDTO> MappingStatesData(params string[] filePath)
         {
             List<IndianStateCensusData> indianStateCensusDatasList = new List<IndianStateCensusData>();
             List<IndianStateCode> indianStateCodesList = new List<IndianStateCode>();
@@ -24,7 +24,7 @@ namespace StatesCensusAnalyser
                 }
                 foreach (var fields in indianStateCensusDatasList)
                 {
-                    IndianStateDTO indianStateDTO = new IndianStateDTO();
+                    IndiaUSStateDTO indiaUSStateDTO = new IndiaUSStateDTO();
                     var indianStateCensusObject = new IndianStateCensusData
                     {
                         State = fields.State,
@@ -32,8 +32,8 @@ namespace StatesCensusAnalyser
                         Population = fields.Population,
                         AreaInSqKm = fields.AreaInSqKm,
                     };
-                    indianStateDTO.StateCensusInitializer(indianStateCensusObject);
-                    mapStateCensusCode.Add(fields.State, indianStateDTO);
+                    indiaUSStateDTO.StateCensusInitializer(indianStateCensusObject);
+                    mapStateCensusCode.Add(fields.State, indiaUSStateDTO);
                 }
             }
             if (filePath[1] != null)

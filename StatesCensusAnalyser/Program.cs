@@ -12,7 +12,7 @@ namespace StatesCensusAnalyser
         public static void Main(string[] args)
         {
             IndianStateCensusCodeMap indianStateCensusCodeMap = new IndianStateCensusCodeMap();
-            indianStateCensusCodeMap.MappingStateCodeAndCensus(INDIAN_STATE_CODE_DATA_FILEPATH);
+            indianStateCensusCodeMap.MappingStatesData(INDIAN_STATE_CODE_DATA_FILEPATH);
         }
     }
 }

@@ -20,18 +20,41 @@ namespace StatesCensusTests
         public readonly string INDIAN_STATE_CODE_DATA_INCORRECT_EXTENSION_FILEPATH = @"C:\Users\Kashish Manchanda\source\repos\Census Analyser Problem\StatesCensusTests\Resources\IndiaStateCode.xls";
         public readonly string INDIAN_STATE_CODE_DATA_WRONG_DELIMITER_FILEPATH = @"C:\Users\Kashish Manchanda\source\repos\Census Analyser Problem\StatesCensusTests\Resources\IndiaStateCodeWrongDelimiter.csv";
         public readonly string INDIAN_STATE_CODE_DATA_WRONG_HEADER_FILEPATH = @"C:\Users\Kashish Manchanda\source\repos\Census Analyser Problem\StatesCensusTests\Resources\IndiaStateCodeWrongHeader.csv";
+        public readonly string US_STATE_CENSUS_DATA_FILEPATH = @"C:\Users\Kashish Manchanda\source\repos\Census Analyser Problem\StatesCensusTests\Resources\USCensusData.csv";
+        public readonly string US_STATE_CENSUS_DATA_WRONG_FILEPATH = @"C:\Users\Kashish Manchanda\source\repos\Census Analser Problem\StatesCensusTests\Resources\USCensusData.csv";
 
         [SetUp]
         public void Setup()
         {
             censusAnalyserFactory = new CensusAnalyserFactory();
         }
+        [Test]
+        public void GivenUSCensusDataRightFilePath_InLoadCensusData_ReturnNumberOfRecords()
+        {
+            int expectedRecords = 51;
+            int result = censusAnalyserFactory.LoadIndianStatesData(CountryType.US, US_STATE_CENSUS_DATA_FILEPATH);
+            Assert.AreEqual(expectedRecords, result);
+        }
+        [Test]
+        public void GivenUSCensusDataWrongFilePath_InLoadCensusData_ThrowCustomException()
+        {
+            try
+            {
+                int expectedRecords = 51;
+                int result = censusAnalyserFactory.LoadIndianStatesData(CountryType.US, US_STATE_CENSUS_DATA_WRONG_FILEPATH);
+                Assert.AreEqual(expectedRecords, result);
+            }
+            catch (Exception ex)
+            {
+                Assert.AreEqual("File is not found at specified location", ex.Message);
+            }
+        }
 
         [Test]
         public void GivenStateCensusDataRightFilePath_InLoadCensusData_ReturnNumberOfRecords()
         {
             int expectedRecords = 29;
-            int result = censusAnalyserFactory.LoadIndianStatesData(INDIAN_STATE_CENSUS_DATA_FILEPATH,null);
+            int result = censusAnalyserFactory.LoadIndianStatesData(CountryType.INDIA,INDIAN_STATE_CENSUS_DATA_FILEPATH,null);
             Assert.AreEqual(expectedRecords, result);
         }
         [Test]
@@ -40,7 +63,7 @@ namespace StatesCensusTests
             try
             {
                 int expectedRecords = 29;
-                int result = censusAnalyserFactory.LoadIndianStatesData(INDIAN_STATE_CENSUS_DATA_WRONG_FILEPATH);
+                int result = censusAnalyserFactory.LoadIndianStatesData(CountryType.INDIA,INDIAN_STATE_CENSUS_DATA_WRONG_FILEPATH,null);
                 Assert.AreEqual(expectedRecords, result);
             }
             catch (Exception ex)
@@ -54,7 +77,7 @@ namespace StatesCensusTests
             try
             {
                 int expectedRecords = 29;
-                int result = censusAnalyserFactory.LoadIndianStatesData(INDIAN_STATE_CENSUS_DATA_INCORRECT_EXTENSION_FILEPATH);
+                int result = censusAnalyserFactory.LoadIndianStatesData(CountryType.INDIA,INDIAN_STATE_CENSUS_DATA_INCORRECT_EXTENSION_FILEPATH,null);
                 Assert.AreEqual(expectedRecords, result);
             }
             catch (Exception ex)
@@ -68,7 +91,7 @@ namespace StatesCensusTests
             try
             {
                 int expectedRecords = 29;
-                int result = censusAnalyserFactory.LoadIndianStatesData(INDIAN_STATE_CENSUS_DATA_WRONG_DELIMITER_FILEPATH);
+                int result = censusAnalyserFactory.LoadIndianStatesData(CountryType.INDIA,INDIAN_STATE_CENSUS_DATA_WRONG_DELIMITER_FILEPATH,null);
                 Assert.AreEqual(expectedRecords, result);
             }
             catch (Exception ex)
@@ -82,7 +105,7 @@ namespace StatesCensusTests
             try
             {
                 int expectedRecords = 29;
-                int result = censusAnalyserFactory.LoadIndianStatesData(INDIAN_STATE_CENSUS_DATA_WRONG_HEADER_FILEPATH);
+                int result = censusAnalyserFactory.LoadIndianStatesData(CountryType.INDIA,INDIAN_STATE_CENSUS_DATA_WRONG_HEADER_FILEPATH);
                 Assert.AreEqual(expectedRecords, result);
             }
             catch (Exception ex)
@@ -96,7 +119,7 @@ namespace StatesCensusTests
             try
             {
                 int expectedRecords = 36;
-                int result = censusAnalyserFactory.LoadIndianStatesData(null,INDIAN_STATE_CODE_DATA_WRONG_FILEPATH);
+                int result = censusAnalyserFactory.LoadIndianStatesData(CountryType.INDIA,null,INDIAN_STATE_CODE_DATA_WRONG_FILEPATH);
                 Assert.AreEqual(expectedRecords, result);
             }
             catch (Exception ex)
@@ -110,7 +133,7 @@ namespace StatesCensusTests
             try
             {
                 int expectedRecords = 36;
-                int result = censusAnalyserFactory.LoadIndianStatesData(null,INDIAN_STATE_CODE_DATA_INCORRECT_EXTENSION_FILEPATH);
+                int result = censusAnalyserFactory.LoadIndianStatesData(CountryType.INDIA,null,INDIAN_STATE_CODE_DATA_INCORRECT_EXTENSION_FILEPATH);
                 Assert.AreEqual(expectedRecords, result);
             }
             catch (Exception ex)
@@ -124,7 +147,7 @@ namespace StatesCensusTests
             try
             {
                 int expectedRecords = 36;
-                int result = censusAnalyserFactory.LoadIndianStatesData(null,INDIAN_STATE_CODE_DATA_WRONG_DELIMITER_FILEPATH);
+                int result = censusAnalyserFactory.LoadIndianStatesData(CountryType.INDIA,null,INDIAN_STATE_CODE_DATA_WRONG_DELIMITER_FILEPATH);
                 Assert.AreEqual(expectedRecords, result);
             }
             catch (Exception ex)
@@ -138,7 +161,7 @@ namespace StatesCensusTests
             try
             {
                 int expectedRecords = 36;
-                int result = censusAnalyserFactory.LoadIndianStatesData(null,INDIAN_STATE_CODE_DATA_WRONG_HEADER_FILEPATH);
+                int result = censusAnalyserFactory.LoadIndianStatesData(CountryType.INDIA,null,INDIAN_STATE_CODE_DATA_WRONG_HEADER_FILEPATH);
                 Assert.AreEqual(expectedRecords, result);
             }
             catch (Exception ex)
@@ -150,7 +173,7 @@ namespace StatesCensusTests
         [Test]
         public void GivenStateCensusDataRightFilePath_InLoadCensusData_GetsMeSortedListByStateName()
         {
-            var jsonString = censusAnalyserFactory.SortingIndianStateData(ComparerFields.SortingType.STATE,INDIAN_STATE_CENSUS_DATA_FILEPATH,INDIAN_STATE_CODE_DATA_FILEPATH);
+            var jsonString = censusAnalyserFactory.SortingIndianStateData(CountryType.INDIA,ComparerFields.SortingType.STATE, INDIAN_STATE_CENSUS_DATA_FILEPATH, INDIAN_STATE_CODE_DATA_FILEPATH);
             var arraySortedByState = JsonConvert.DeserializeObject<IndianStateCensusData[]>(jsonString);
             Assert.AreEqual(arraySortedByState[0].State, "Andhra Pradesh");
             Array.Reverse(arraySortedByState);
@@ -159,7 +182,7 @@ namespace StatesCensusTests
         [Test]
         public void GivenStateCodeRightFilePath_InLoadCensusData_GetsMeSortedListByStateCode()
         {
-            var jsonString = censusAnalyserFactory.SortingIndianStateData(ComparerFields.SortingType.STATE_CODE,INDIAN_STATE_CENSUS_DATA_FILEPATH,INDIAN_STATE_CODE_DATA_FILEPATH);
+            var jsonString = censusAnalyserFactory.SortingIndianStateData(CountryType.INDIA,ComparerFields.SortingType.STATE_CODE, INDIAN_STATE_CENSUS_DATA_FILEPATH, INDIAN_STATE_CODE_DATA_FILEPATH);
             var arraySortedByStateCode = JsonConvert.DeserializeObject<IndianStateCode[]>(jsonString);
             Assert.AreEqual(arraySortedByStateCode[0].StateName, "Andhra Pradesh");
             Array.Reverse(arraySortedByStateCode);

@@ -1,30 +1,50 @@
 ﻿using Newtonsoft.Json;
 using StatesCensusAnalyser.DTO;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StatesCensusAnalyser
 {
     public class CensusAnalyserFactory
     {
-        Dictionary<string,IndianStateDTO> indianStateData = new Dictionary<string,IndianStateDTO>();
-        public int LoadIndianStatesData(params string[] filePath)
+        Dictionary<string,IndiaUSStateDTO> distinctCountryData = new Dictionary<string, IndiaUSStateDTO>();
+        public int LoadIndianStatesData(CountryType country, params string[] filePath)
         {
-            ILoadIndianStatesDataInMap indianStatesDataInMap = new IndianStateCensusCodeMap();
-            indianStateData = indianStatesDataInMap.MappingStateCodeAndCensus(filePath);
-            return indianStateData.Count();
+            if (country == CountryType.INDIA)
+            {
+                ILoadIndianStatesDataInMap indianStatesDataInMap = new IndianStateCensusCodeMap();
+                distinctCountryData = indianStatesDataInMap.MappingStatesData(filePath);
+            }
+            if(country == CountryType.US)
+            {
+                ILoadIndianStatesDataInMap usStatesDataInMap = new USStateMap();
+                distinctCountryData = usStatesDataInMap.MappingStatesData(filePath);
+            }
+            return distinctCountryData.Count;
         }
-        public string SortingIndianStateData(ComparerFields.SortingType fieldtoBesorted, params string[] filePath)
+        public string SortingIndianStateData(CountryType country,ComparerFields.SortingType fieldtoBesorted, params string[] filePath)
         {
-            ILoadIndianStatesDataInMap indianStatesDataInMap = new IndianStateCensusCodeMap();
-            indianStateData = indianStatesDataInMap.MappingStateCodeAndCensus(filePath);
-            var sortedList = indianStateData.Select(x => x.Value).ToList();
-            ComparerFields comparer = new ComparerFields(fieldtoBesorted);
-            sortedList.Sort(comparer);
-            return JsonConvert.SerializeObject(sortedList);
+            if (country == CountryType.INDIA)
+            {
+                ILoadIndianStatesDataInMap indianStatesDataInMap = new IndianStateCensusCodeMap();
+                distinctCountryData = indianStatesDataInMap.MappingStatesData(filePath);
+                var sortedList = distinctCountryData.Select(x => x.Value).ToList();
+                ComparerFields comparer = new ComparerFields(fieldtoBesorted);
+                sortedList.Sort(comparer);
+                return JsonConvert.SerializeObject(sortedList);
+            }
+            if (country == CountryType.US)
+            {
+                ILoadIndianStatesDataInMap uSStatesDataInMap = new USStateMap();
+                distinctCountryData = uSStatesDataInMap.MappingStatesData(filePath);
+                var sortedList = distinctCountryData.Select(x => x.Value).ToList();
+                ComparerFields comparer = new ComparerFields(fieldtoBesorted);
+                sortedList.Sort(comparer);
+                return JsonConvert.SerializeObject(sortedList);
+            }
+            else
+            {
+                return "Please select Country";
+            }
         }
     }
 }
