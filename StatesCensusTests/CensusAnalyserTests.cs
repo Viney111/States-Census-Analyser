@@ -36,6 +36,24 @@ namespace StatesCensusTests
             Assert.AreEqual(expectedRecords, result);
         }
         [Test]
+        public void GivenUSStateCensusDataRightFilePath_InLoadCensusData_GetsMeSortedListByPopulation()
+        {
+            var jsonString = censusAnalyserFactory.SortingIndiaUSStateData(CountryType.US, ComparerFields.SortingType.POPULATION, US_STATE_CENSUS_DATA_FILEPATH);
+            var arraySortedByState = JsonConvert.DeserializeObject<USStateData[]>(jsonString);
+            Assert.AreEqual(arraySortedByState[0].State, "Wyoming");
+            Array.Reverse(arraySortedByState);
+            Assert.AreEqual(arraySortedByState[0].State, "California");
+        }
+        [Test]
+        public void GivenUSStateCensusDataRightFilePath_InLoadCensusData_GetsMeSortedListByLandArea()
+        {
+            var jsonString = censusAnalyserFactory.SortingIndiaUSStateData(CountryType.US, ComparerFields.SortingType.LAND_AREA, US_STATE_CENSUS_DATA_FILEPATH);
+            var arraySortedByState = JsonConvert.DeserializeObject<USStateData[]>(jsonString);
+            Assert.AreEqual(arraySortedByState[0].State, "District of Columbia");
+            Array.Reverse(arraySortedByState);
+            Assert.AreEqual(arraySortedByState[0].State, "Alaska");
+        }
+        [Test]
         public void GivenUSStateCensusDataRightFilePath_InLoadCensusData_GetsMeSortedListByPopulousState()
         {
             var jsonString = censusAnalyserFactory.SortingIndiaUSStateData(CountryType.US, ComparerFields.SortingType.POPULATION_DENSITY, US_STATE_CENSUS_DATA_FILEPATH);
