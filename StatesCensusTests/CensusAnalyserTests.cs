@@ -141,6 +141,13 @@ namespace StatesCensusTests
             }
         }
         [Test]
+        public void GivenStateCodeDataRightFilePath_InLoadCensusData_ReturnNumberOfRecords()
+        {
+            int expectedRecords = 36;
+            int result = censusAnalyserFactory.LoadIndianStatesData(CountryType.INDIA, INDIAN_STATE_CENSUS_DATA_FILEPATH, INDIAN_STATE_CODE_DATA_FILEPATH);
+            Assert.AreEqual(expectedRecords, result);
+        }
+        [Test]
         public void GivenStateCodeDataWrongFilePath_InLoadCensusData_ThrowCustomException()
         {
             try
@@ -200,7 +207,7 @@ namespace StatesCensusTests
         [Test]
         public void GivenStateCensusDataRightFilePath_InLoadCensusData_GetsMeSortedListByStateName()
         {
-            var jsonString = censusAnalyserFactory.SortingIndiaUSStateData(CountryType.INDIA,ComparerFields.SortingType.STATE, INDIAN_STATE_CENSUS_DATA_FILEPATH, INDIAN_STATE_CODE_DATA_FILEPATH);
+            var jsonString = censusAnalyserFactory.SortingIndiaUSStateData(CountryType.INDIA,ComparerFields.SortingType.STATE, INDIAN_STATE_CENSUS_DATA_FILEPATH, null);
             var arraySortedByState = JsonConvert.DeserializeObject<IndianStateCensusData[]>(jsonString);
             Assert.AreEqual(arraySortedByState[0].State, "Andhra Pradesh");
             Array.Reverse(arraySortedByState);
@@ -211,7 +218,7 @@ namespace StatesCensusTests
         {
             var jsonString = censusAnalyserFactory.SortingIndiaUSStateData(CountryType.INDIA,ComparerFields.SortingType.STATE_CODE, INDIAN_STATE_CENSUS_DATA_FILEPATH, INDIAN_STATE_CODE_DATA_FILEPATH);
             var arraySortedByStateCode = JsonConvert.DeserializeObject<IndianStateCode[]>(jsonString);
-            Assert.AreEqual(arraySortedByStateCode[0].StateName, "Andhra Pradesh");
+            Assert.AreEqual(arraySortedByStateCode[0].StateName, "Andaman and Nicobar Islands");
             Array.Reverse(arraySortedByStateCode);
             Assert.AreEqual(arraySortedByStateCode[0].StateName, "West Bengal");
         }

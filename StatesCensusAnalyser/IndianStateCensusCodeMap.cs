@@ -9,7 +9,7 @@ namespace StatesCensusAnalyser
 {
     public class IndianStateCensusCodeMap : ILoadIndianStatesDataInMap
     {
-        Dictionary<string, IndiaUSStateDTO> mapStateCensusCode = new Dictionary<string, IndiaUSStateDTO>();
+        Dictionary<string, IndiaUSStateDTO> mapIndiaStateCensusCode = new Dictionary<string, IndiaUSStateDTO>();
         public Dictionary<string, IndiaUSStateDTO> MappingStatesData(params string[] filePath)
         {
             List<IndianStateCensusData> indianStateCensusDatasList = new List<IndianStateCensusData>();
@@ -33,7 +33,7 @@ namespace StatesCensusAnalyser
                         AreaInSqKm = fields.AreaInSqKm,
                     };
                     indiaUSStateDTO.StateCensusInitializer(indianStateCensusObject);
-                    mapStateCensusCode.Add(fields.State, indiaUSStateDTO);
+                    mapIndiaStateCensusCode.Add(fields.State, indiaUSStateDTO);
                 }
             }
             if (filePath[1] != null)
@@ -45,13 +45,27 @@ namespace StatesCensusAnalyser
                     indianStateCodesList = csvReader.GetRecords<IndianStateCode>().ToList();
                 }
                 IndianStateCode indianStateCodeDistinctstates = new IndianStateCode();
-                foreach (var kvp in mapStateCensusCode)
+                foreach (var kvp in mapIndiaStateCensusCode)
                 {
                     var indianStateCodeObject = indianStateCodesList.Find(x => x.StateName == kvp.Key);
+                    indianStateCodesList.Remove(indianStateCodeObject);
                     kvp.Value.StateCodeInitializer(indianStateCodeObject);
                 }
+                foreach(var fields in indianStateCodesList)
+                {
+                    IndiaUSStateDTO indiaUSStateDTO = new IndiaUSStateDTO();
+                    var distinctStateCodeObject = new IndianStateCode
+                    {
+                        StateName = fields.StateName,
+                        SrNo = fields.SrNo,
+                        StateCode = fields.StateCode,
+                        TIN = fields.TIN,
+                    };
+                    indiaUSStateDTO.StateCodeInitializer(distinctStateCodeObject);
+                    mapIndiaStateCensusCode.Add(fields.StateName, indiaUSStateDTO);
+                }
             }
-            return mapStateCensusCode;
+            return mapIndiaStateCensusCode;
         }
     }
 }
