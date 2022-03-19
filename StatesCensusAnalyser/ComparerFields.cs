@@ -9,7 +9,7 @@ namespace StatesCensusAnalyser
     {
         public enum SortingType
         {
-            STATE,STATE_CODE,POPULATION_DENSITY,POPULATION,LAND_AREA
+            STATE,STATE_CODE,POPULATION_DENSITY,POPULATION,LAND_AREA,DENSITY_SQ_KM
         }
         public SortingType comparebyDataHeader;
         public ComparerFields(SortingType comparebyDataHeader)
@@ -30,6 +30,8 @@ namespace StatesCensusAnalyser
                     return x.Population.CompareTo(y.Population);
                 case SortingType.LAND_AREA:
                     return x.Landarea.CompareTo(y.Landarea);
+                case SortingType.DENSITY_SQ_KM:
+                    return x.DensityPerSqKm.CompareTo(y.DensityPerSqKm);
                 default:
                     break;
             }

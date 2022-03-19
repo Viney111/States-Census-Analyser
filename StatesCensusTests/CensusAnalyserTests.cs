@@ -223,6 +223,15 @@ namespace StatesCensusTests
             Assert.AreEqual(arraySortedByState[0].State, "Uttar Pradesh");
         }
         [Test]
+        public void GivenStateCensusDataRightFilePath_InLoadCensusData_GetsMeSortedListByPopulationDensity()
+        {
+            var jsonString = censusAnalyserFactory.SortingIndiaUSStateData(CountryType.INDIA, ComparerFields.SortingType.DENSITY_SQ_KM, INDIAN_STATE_CENSUS_DATA_FILEPATH, null);
+            var arraySortedByState = JsonConvert.DeserializeObject<IndianStateCensusData[]>(jsonString);
+            Assert.AreEqual(arraySortedByState[0].State, "Arunachal Pradesh");
+            Array.Reverse(arraySortedByState);
+            Assert.AreEqual(arraySortedByState[0].State, "Bihar");
+        }
+        [Test]
         public void GivenStateCodeRightFilePath_InLoadCensusData_GetsMeSortedListByStateCode()
         {
             var jsonString = censusAnalyserFactory.SortingIndiaUSStateData(CountryType.INDIA,ComparerFields.SortingType.STATE_CODE, INDIAN_STATE_CENSUS_DATA_FILEPATH, INDIAN_STATE_CODE_DATA_FILEPATH);
