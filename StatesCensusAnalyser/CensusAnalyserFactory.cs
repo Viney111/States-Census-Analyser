@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using StatesCensusAnalyser.DTO;
+using StatesCensusAnalyser.POCO;
 using System.Linq;
 
 namespace StatesCensusAnalyser
@@ -45,6 +46,20 @@ namespace StatesCensusAnalyser
             {
                 return "Please select Country";
             }
+        }
+        public string SortingByPopulationDensityAmongIndiaAndUS(string filePathUS, string filePathIN)
+        {
+            CensusAnalyserFactory censusAnalyserFactory = new CensusAnalyserFactory();
+            var jsonStringUS = censusAnalyserFactory.SortingIndiaUSStateData(CountryType.US,ComparerFields.SortingType.POPULATION_DENSITY,filePathUS);
+            var arraySortedByUSState = JsonConvert.DeserializeObject<USStateData[]>(jsonStringUS);
+            Array.Reverse(arraySortedByUSState);
+            var jsonStringIN = censusAnalyserFactory.SortingIndiaUSStateData(CountryType.INDIA, ComparerFields.SortingType.DENSITY_SQ_KM, filePathIN,null);
+            var arraySortedByIndiaState = JsonConvert.DeserializeObject<IndianStateCensusData[]>(jsonStringIN);
+            Array.Reverse(arraySortedByIndiaState);
+            double densityOfUSState = arraySortedByUSState[0].PopulationDensity;
+            double densityOfIndiaState = arraySortedByIndiaState[0].DensityPerSqKm;
+            string resultedState = densityOfIndiaState > densityOfUSState ? arraySortedByIndiaState[0].State : arraySortedByUSState[0].State;
+            return resultedState;
         }
     }
 }

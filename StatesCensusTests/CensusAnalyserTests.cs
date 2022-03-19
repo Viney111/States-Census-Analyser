@@ -36,6 +36,12 @@ namespace StatesCensusTests
             Assert.AreEqual(expectedRecords, result);
         }
         [Test]
+        public void GivenUSAndIndiaStateCensusDataRightFilePath_InLoadCensusData_GetsMeSortedListByPopulation()
+        {
+            string mostPoulousStateAmongINAndUS = censusAnalyserFactory.SortingByPopulationDensityAmongIndiaAndUS(US_STATE_CENSUS_DATA_FILEPATH, INDIAN_STATE_CENSUS_DATA_FILEPATH);
+            Assert.AreEqual("District of Columbia", mostPoulousStateAmongINAndUS);
+        }
+        [Test]
         public void GivenUSStateCensusDataRightFilePath_InLoadCensusData_GetsMeSortedListByPopulation()
         {
             var jsonString = censusAnalyserFactory.SortingIndiaUSStateData(CountryType.US, ComparerFields.SortingType.POPULATION, US_STATE_CENSUS_DATA_FILEPATH);
